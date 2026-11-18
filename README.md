@@ -20,3 +20,14 @@ If you are developing a production application, we recommend using TypeScript wi
 
     npm install
     npm run dev
+
+
+i wrote somehtitng fonny but i didn't do anythign funnyasdadhasjdhas
+sadaksjdasjdhasjkhdasjd
+
+
+asdkjashdkjashdkjashd'as
+d
+asd
+asd
+sa
