@@ -1,0 +1,68 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #f8fafc;
+  background: #013048;
+  line-height: 1.5;
+  color-scheme: dark;
+
+  --color-background: #013048;
+  --color-background-end: #002031;
+
+  --color-surface: #1e2d38;
+  --color-control: #2a5266;
+  --color-border: #426174;
+
+  --color-primary: #08b8d0;
+  --color-primary-hover: #37c9dc;
+  --color-on-primary: #002031;
+
+  --color-text: #f8fafc;
+  --color-muted: #abc1cc;
+
+  --color-income: #78d108;
+  --color-expense: #ef5350;
+
+  --color-chart-blue: #0879ba;
+  --color-chart-purple: #8970ed;
+
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    var(--color-background),
+    var(--color-background-end)
+  );
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+p {
+  margin: 0 0 16px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
