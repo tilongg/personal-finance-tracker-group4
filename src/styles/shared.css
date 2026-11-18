@@ -80,6 +80,31 @@
   margin: 0;
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-form .btn-primary {
+  margin-top: 8px;
+}
+
+.login-card .form-error {
+  color: var(--color-expense);
+}
+
+.demo-credentials {
+  padding: 16px;
+  background: var(--color-control);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.demo-credentials p + p {
+  margin-top: 4px;
+}
+
 @media (max-width: 600px) {
   .page {
     padding: 20px 16px;

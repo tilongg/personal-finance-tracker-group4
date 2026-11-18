@@ -6,7 +6,6 @@ export default function AppLayout() {
   return (
     <div className="app-layout">
       <aside className="sidebar">
-        <p className="brand">Finance Tracker</p>
         <Navbar />
       </aside>
 

@@ -1,5 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Transactions from "./pages/Transactions.jsx";
 import AddTransaction from "./pages/AddTransaction.jsx";
@@ -13,11 +14,14 @@ export default function App() {
       <Route path="/login" element={<Login />} />
 
       <Route element={<AppLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="transactions" element={<Transactions />} />
-        <Route path="transactions/new" element={<AddTransaction />} />
-        <Route path="savings" element={<SavingsGoals />} />
         <Route path="about" element={<About />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route index element={<Dashboard />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="transactions/new" element={<AddTransaction />} />
+          <Route path="savings" element={<SavingsGoals />} />
+        </Route>
 
         <Route
           path="*"
