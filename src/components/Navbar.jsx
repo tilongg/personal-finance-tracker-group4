@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <div className="navbar" onKeyDown={handleKeyDown}>
       <div className="navbar-top">
-        <p className="brand">Finance Tracker</p>
+        <p className="brand">SaveYoMoney</p>
 
         <button
           className="menu-toggle"

@@ -24,7 +24,7 @@ export default function Login() {
   return (
     <main className="login-page">
       <section className="card login-card">
-        <p className="brand">Finance Tracker</p>
+        <p className="brand">SaveYoMoney</p>
         <h1 className="page-title">Welcome back</h1>
         <p>Log in to manage your finances.</p>
 
