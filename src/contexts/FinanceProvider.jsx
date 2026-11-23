@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FinanceContext } from "./FinanceContext";
-import { sampleTransactions } from "../data/SampleData";
+import { sampleTransactions } from "../data/sampleData";
 
 export default function FinanceProvider({ children }) {
   const [transactions, setTransactions] = useState([

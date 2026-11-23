@@ -9,6 +9,24 @@ export default function Transactions() {
     sampleTransactionsLoaded
   } = useFinance();
 
+  const totalIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce(
+      (total, transaction) =>
+        total + Number(transaction.amount || 0),
+      0
+    );
+
+  const totalExpense = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce(
+      (total, transaction) =>
+        total + Number(transaction.amount || 0),
+      0
+    );
+
+  const balance = totalIncome - totalExpense;
+
   function handleDelete(id) {
     if (window.confirm("Delete this transaction?")) {
       deleteTransaction(id);
@@ -40,6 +58,35 @@ export default function Transactions() {
         </div>
       </div>
 
+      <div className="summary-boxes">
+        <div className="summary-box">
+          <div className="label">Total Income</div>
+          <div className="amount text-income">
+            ${totalIncome.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="summary-box">
+          <div className="label">Total Expense</div>
+          <div className="amount text-expense">
+            ${totalExpense.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="summary-box">
+          <div className="label">Net Balance</div>
+          <div
+            className={
+              balance >= 0
+                ? "amount text-income"
+                : "amount text-expense"
+            }
+          >
+            ${balance.toLocaleString()}
+          </div>
+        </div>
+      </div>
+
       {transactions.length === 0 ? (
         <section className="card table-card">
           <p>No transactions found.</p>
@@ -63,17 +110,19 @@ export default function Transactions() {
               <tbody>
                 {transactions.map((transaction, index) => (
                   <tr key={transaction.id}>
-                    <td>{index + 1}</td>
+                    <td className="muted-text">{index + 1}</td>
                     <td>{transaction.date}</td>
 
-                    <td
-                      className={
-                        transaction.type === "income"
-                          ? "text-income"
-                          : "text-expense"
-                      }
-                    >
-                      {transaction.type}
+                    <td>
+                      <span
+                        className={
+                          transaction.type === "income"
+                            ? "text-income"
+                            : "text-expense"
+                        }
+                      >
+                        {transaction.type}
+                      </span>
                     </td>
 
                     <td>
@@ -84,7 +133,9 @@ export default function Transactions() {
 
                     <td>{transaction.note || "-"}</td>
 
-                    <td className="align-right amount-cell">
+                    <td
+                      className={`align-right amount-cell ${transaction.type}`}
+                    >
                       {transaction.type === "income" ? "+" : "-"}
                       ${Number(transaction.amount).toLocaleString()}
                     </td>
@@ -103,6 +154,24 @@ export default function Transactions() {
                   </tr>
                 ))}
               </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colSpan={5} className="align-right">
+                    Total balance
+                  </td>
+                  <td
+                    className={`align-right ${
+                      balance >= 0
+                        ? "text-income"
+                        : "text-expense"
+                    }`}
+                  >
+                    ${balance.toLocaleString()}
+                  </td>
+                  <td />
+                </tr>
+              </tfoot>
             </table>
           </div>
         </section>
