@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FinanceContext } from "./FinanceContext";
+import { sampleTransactions } from "../data/SampleData";
 
 export default function FinanceProvider({ children }) {
   const [transactions, setTransactions] = useState([
@@ -28,6 +29,19 @@ export default function FinanceProvider({ children }) {
       amount: 150
     }
   ]);
+  const [sampleTransactionsLoaded, setSampleTransactionsLoaded] = useState(false);
+
+  function loadSampleTransactions() {
+    if (sampleTransactionsLoaded) return;
+
+    setTransactions((prev) => {
+      const existingIds = new Set(prev.map((t) => t.id));
+      const toAdd = sampleTransactions.filter((s) => !existingIds.has(s.id));
+      return [...prev, ...toAdd];
+    });
+
+    setSampleTransactionsLoaded(true);
+  }
 
   function addTransaction(newTransaction) {
     setTransactions((previous) => [
@@ -51,7 +65,9 @@ export default function FinanceProvider({ children }) {
       value={{
         transactions,
         addTransaction,
-        deleteTransaction
+        deleteTransaction,
+        loadSampleTransactions,
+        sampleTransactionsLoaded
       }}
     >
       {children}

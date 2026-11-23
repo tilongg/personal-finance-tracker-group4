@@ -24,9 +24,9 @@ export default function About() {
         </a>
         </h2>
         <p>Team Members</p>
-        <li>Tilong</li>
-        <li>Sovichet</li>
-        <li>Yongjiea</li>
+        <li>  Tilong</li>
+        <li>  Sovichet</li>
+        <li>  Yongjiea</li>
       </section>
     </>
   );
