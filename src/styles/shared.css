@@ -105,6 +105,10 @@
   margin-top: 4px;
 }
 
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
 @media (max-width: 600px) {
   .page {
     padding: 20px 16px;

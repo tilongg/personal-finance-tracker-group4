@@ -1,40 +1,13 @@
-import { useState } from "react";
-import TransactionTable from "../components/TransactionTable";
+import { useFinance } from "../contexts/FinanceContext";
+import TransactionTable from "../components/transactions/TransactionTable";
 
 export default function Transactions() {
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      date: "2026-04-03",
-      type: "income",
-      tag: "salary",
-      note: "Monthly salary",
-      amount: 5000
-    },
-    {
-      id: 2,
-      date: "2026-04-05",
-      type: "expense",
-      tag: "rent",
-      note: "Apartment rent",
-      amount: 1200
-    },
-    {
-      id: 3,
-      date: "2026-04-08",
-      type: "expense",
-      tag: "food",
-      note: "Weekly groceries",
-      amount: 150
-    }
-  ]);
+  const { transactions, deleteTransaction } = useFinance();
 
   function handleDelete(id) {
-    setTransactions((previousTransactions) =>
-      previousTransactions.filter(
-        (transaction) => transaction.id !== id
-      )
-    );
+    if (window.confirm("Delete this transaction?")) {
+      deleteTransaction(id);
+    }
   }
 
   return (
