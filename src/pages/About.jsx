@@ -16,10 +16,17 @@ export default function About() {
 
 
         </p>
-        <p>Github Repo: <a href="https://github.com/tilongg/personal-finance-tracker-group4" target="_blank" rel="noopener noreferrer">
+        
+      </section>
+      <section className="card">
+        <h2>Github Repo: <a href="https://github.com/tilongg/personal-finance-tracker-group4" target="_blank" rel="noopener noreferrer">
           Link
         </a>
-        </p>
+        </h2>
+        <p>Team Members</p>
+        <li>Tilong</li>
+        <li>Sovichet</li>
+        <li>Yongjiea</li>
       </section>
     </>
   );
