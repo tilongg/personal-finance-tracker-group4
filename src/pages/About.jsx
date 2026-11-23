@@ -6,12 +6,19 @@ export default function About() {
       <section className="card">
         <h2>About SaveYoMoney</h2>
         <p>
-          SaveYoMoney, don't be funny. SaveYoMoney helps users record income and expenses,
+          SaveYoMoney helps users record income and expenses,
           understand their spending, and track savings goals.
         </p>
         <p>
           Created as a React final project for our Frontend
-          Development course.
+          Development course. Features include real-time income and expense calculation,
+          category tagging, month & tag filtering, and browser local storage.
+
+
+        </p>
+        <p>Github Repo: <a href="https://github.com/tilongg/personal-finance-tracker-group4" target="_blank" rel="noopener noreferrer">
+          Link
+        </a>
         </p>
       </section>
     </>
