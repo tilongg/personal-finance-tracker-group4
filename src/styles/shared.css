@@ -66,7 +66,7 @@
 .btn-secondary:hover {
   background: #375b70;
 }
-/* Simple Forms */
+/* Forms */
 .form-group {
   margin-bottom: 14px;
 }
@@ -141,6 +141,15 @@
   gap: 16px;
   margin-bottom: 20px;
 }
+/* expense color */
+.text-income {
+  color: var(--color-income);
+}
+
+.text-expense {
+  color: var(--color-expense);
+}
+/* expense color END */
 table.simple-table {
   width: 100%;
   border-collapse: collapse;

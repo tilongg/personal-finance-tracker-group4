@@ -1,73 +1,93 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FinanceContext } from "./FinanceContext";
 import { sampleTransactions } from "../data/sampleData";
+import { calculateFinanceTotals } from "../components/lib/finance";
+import { loadStoredArray, saveStoredArray } from "../components/lib/storage";
 
 export default function FinanceProvider({ children }) {
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      date: "2026-04-03",
-      type: "income",
-      tag: "salary",
-      note: "Monthly salary",
-      amount: 5000
-    },
-    {
-      id: 2,
-      date: "2026-04-05",
-      type: "expense",
-      tag: "rent",
-      note: "Apartment rent",
-      amount: 1200
-    },
-    {
-      id: 3,
-      date: "2026-04-08",
-      type: "expense",
-      tag: "food",
-      note: "Weekly groceries",
-      amount: 150
-    }
-  ]);
-  const [sampleTransactionsLoaded, setSampleTransactionsLoaded] = useState(false);
+  const [transactions, setTransactions] = useState(() =>
+    loadStoredArray("savedTransactions")
+  );
 
-  function loadSampleTransactions() {
-    if (sampleTransactionsLoaded) return;
+  const [sampleTransactionsLoaded, setSampleTransactionsLoaded] = useState(() =>
+    localStorage.getItem("sampleTxnsLoaded") === "true"
+  );
 
-    setTransactions((prev) => {
-      const existingIds = new Set(prev.map((t) => t.id));
-      const toAdd = sampleTransactions.filter((s) => !existingIds.has(s.id));
-      return [...prev, ...toAdd];
-    });
-
-    setSampleTransactionsLoaded(true);
-  }
+  useEffect(() => {
+    saveStoredArray("savedTransactions", transactions);
+  }, [transactions]);
 
   function addTransaction(newTransaction) {
+    const transaction = {
+      ...newTransaction,
+      id: Date.now(),
+      amount: Number(newTransaction.amount)
+    };
+
     setTransactions((previous) => [
-      {
-        ...newTransaction,
-        id: Date.now(),
-        amount: Number(newTransaction.amount)
-      },
+      transaction,
       ...previous
     ]);
   }
 
   function deleteTransaction(id) {
+    const nextTransactions = transactions.filter(
+      (transaction) => transaction.id !== id
+    );
+
+    setTransactions(nextTransactions);
+
+    if (nextTransactions.length === 0 && sampleTransactionsLoaded) {
+      setSampleTransactionsLoaded(false);
+      localStorage.removeItem("sampleTxnsLoaded");
+    }
+  }
+
+  function updateTransaction(id, updatedData) {
     setTransactions((previous) =>
-      previous.filter((transaction) => transaction.id !== id)
+      previous.map((transaction) =>
+        transaction.id === id
+          ? {
+              ...transaction,
+              ...updatedData,
+              amount: Number(updatedData.amount)
+            }
+          : transaction
+      )
     );
   }
+
+  function loadSampleTransactions() {
+    if (sampleTransactionsLoaded) return;
+
+    setTransactions((previous) => {
+      const existingIds = new Set(previous.map((transaction) => transaction.id));
+      const missingTransactions = sampleTransactions.filter(
+        (sample) => !existingIds.has(sample.id)
+      );
+
+      return [...previous, ...missingTransactions];
+    });
+
+    setSampleTransactionsLoaded(true);
+    localStorage.setItem("sampleTxnsLoaded", "true");
+  }
+
+  const { totalIncome, totalExpense, balance } =
+    calculateFinanceTotals(transactions);
 
   return (
     <FinanceContext.Provider
       value={{
         transactions,
+        sampleTransactionsLoaded,
         addTransaction,
         deleteTransaction,
+        updateTransaction,
         loadSampleTransactions,
-        sampleTransactionsLoaded
+        totalIncome,
+        totalExpense,
+        balance
       }}
     >
       {children}
