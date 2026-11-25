@@ -1,5 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import TransactionTable from "../components/transactions/TransactionTable";
 import { useFinance } from "../contexts/FinanceContext";
+import { calculateFilteredNet,filterAndSortTransactions } from "../components/lib/finance";
+import { tags } from "../data/sampleData";
 
 export default function Transactions() {
   const {
@@ -9,23 +13,36 @@ export default function Transactions() {
     sampleTransactionsLoaded
   } = useFinance();
 
+  const [filters, setFilters] = useState({
+    type: "",
+    tag: "",
+    month: "",
+    sortBy: "date",
+    sortOrder: "descending"
+  });
+
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
     .reduce(
-      (total, transaction) =>
-        total + Number(transaction.amount || 0),
+      (total, transaction) => total + Number(transaction.amount || 0),
       0
     );
 
   const totalExpense = transactions
     .filter((transaction) => transaction.type === "expense")
     .reduce(
-      (total, transaction) =>
-        total + Number(transaction.amount || 0),
+      (total, transaction) => total + Number(transaction.amount || 0),
       0
     );
 
   const balance = totalIncome - totalExpense;
+  const filteredTransactions = filterAndSortTransactions(transactions, filters);
+  const filteredNet = calculateFilteredNet(filteredTransactions);
+
+  function handleFilterChange(event) {
+    const { name, value } = event.target;
+    setFilters((current) => ({ ...current, [name]: value }));
+  }
 
   function handleDelete(id) {
     if (window.confirm("Delete this transaction?")) {
@@ -49,10 +66,7 @@ export default function Transactions() {
             </button>
           )}
 
-          <Link
-            to="/transactions/new"
-            className="btn-primary"
-          >
+          <Link to="/transactions/new" className="btn-primary">
             + Add transaction
           </Link>
         </div>
@@ -75,107 +89,92 @@ export default function Transactions() {
 
         <div className="summary-box">
           <div className="label">Net Balance</div>
-          <div
-            className={
-              balance >= 0
-                ? "amount text-income"
-                : "amount text-expense"
-            }
-          >
+          <div className={balance >= 0 ? "amount text-income" : "amount text-expense"}>
             ${balance.toLocaleString()}
           </div>
         </div>
       </div>
 
-      {transactions.length === 0 ? (
-        <section className="card table-card">
-          <p>No transactions found.</p>
-        </section>
-      ) : (
-        <section className="card table-card">
-          <div className="table-wrapper">
-            <table className="simple-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Category</th>
-                  <th>Note</th>
-                  <th className="align-right">Amount</th>
-                  <th className="align-center">Action</th>
-                </tr>
-              </thead>
+      <section className="card transaction-filters" aria-label="Filter transactions">
+        <div className="filter-field">
+          <label htmlFor="filter-type">Type</label>
+          <select
+            id="filter-type"
+            name="type"
+            className="form-control"
+            value={filters.type}
+            onChange={handleFilterChange}
+          >
+            <option value="">All types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
 
-              <tbody>
-                {transactions.map((transaction, index) => (
-                  <tr key={transaction.id}>
-                    <td className="muted-text">{index + 1}</td>
-                    <td>{transaction.date}</td>
+        <div className="filter-field">
+          <label htmlFor="filter-tag">Category</label>
+          <select
+            id="filter-tag"
+            name="tag"
+            className="form-control"
+            value={filters.tag}
+            onChange={handleFilterChange}
+          >
+            <option value="">All categories</option>
+            {tags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+        </div>
 
-                    <td>
-                      <span
-                        className={
-                          transaction.type === "income"
-                            ? "text-income"
-                            : "text-expense"
-                        }
-                      >
-                        {transaction.type}
-                      </span>
-                    </td>
+        <div className="filter-field">
+          <label htmlFor="filter-month">Month</label>
+          <input
+            id="filter-month"
+            name="month"
+            type="month"
+            className="form-control"
+            value={filters.month}
+            onChange={handleFilterChange}
+          />
+        </div>
 
-                    <td>
-                      <span className="tag">
-                        {transaction.tag}
-                      </span>
-                    </td>
+        <div className="filter-field">
+          <label htmlFor="sort-by">Sort by</label>
+          <select
+            id="sort-by"
+            name="sortBy"
+            className="form-control"
+            value={filters.sortBy}
+            onChange={handleFilterChange}
+          >
+            <option value="date">Date</option>
+            <option value="amount">Amount</option>
+          </select>
+        </div>
 
-                    <td>{transaction.note || "-"}</td>
+        <div className="filter-field">
+          <label htmlFor="sort-order">Order</label>
+          <select
+            id="sort-order"
+            name="sortOrder"
+            className="form-control"
+            value={filters.sortOrder}
+            onChange={handleFilterChange}
+          >
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+          </select>
+        </div>
+      </section>
 
-                    <td
-                      className={`align-right amount-cell ${transaction.type}`}
-                    >
-                      {transaction.type === "income" ? "+" : "-"}
-                      ${Number(transaction.amount).toLocaleString()}
-                    </td>
-
-                    <td className="align-center">
-                      <button
-                        type="button"
-                        className="btn-danger btn-sm"
-                        onClick={() =>
-                          handleDelete(transaction.id)
-                        }
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-
-              <tfoot>
-                <tr>
-                  <td colSpan={5} className="align-right">
-                    Total balance
-                  </td>
-                  <td
-                    className={`align-right ${
-                      balance >= 0
-                        ? "text-income"
-                        : "text-expense"
-                    }`}
-                  >
-                    ${balance.toLocaleString()}
-                  </td>
-                  <td />
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </section>
-      )}
+      <TransactionTable
+        transactions={filteredTransactions} 
+        filteredNet={filteredNet}
+        onDelete={handleDelete}
+      />
     </>
   );
 }
