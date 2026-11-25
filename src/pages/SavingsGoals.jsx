@@ -18,7 +18,7 @@ export default function SavingsGoals() {
   const [msg, setMsg] = useState("");
 
   // amount typed into each da goals like "Add money" input field
-  const [contributions, setContributions] = useState({});\
+  const [contributions, setContributions] = useState({});
 
   // math happens in finance.js so this is dum
   const { totalTarget, totalSaved, completedCount } =
