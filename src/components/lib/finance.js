@@ -41,4 +41,31 @@ export function calculateFilteredNet(transactions) {
     const amount = Number(transaction.amount);
     return transaction.type === "income" ? total + amount : total - amount;
   }, 0);
+
+//da saving goalssssss lesgooooooo
+}
+export function calculateGoalProgress(goal) {
+  const target = Number(goal.targetAmount);
+  const current = Number(goal.currentAmount || 0);
+
+  if (!target || target <= 0) return 0;
+  return Math.min(100, Math.round((current / target) * 100));
+}
+
+export function calculateGoalTotals(goals) {
+  const totalTarget = goals.reduce(
+    (total, goal) => total + Number(goal.targetAmount || 0),
+    0
+  );
+
+  const totalSaved = goals.reduce(
+    (total, goal) => total + Number(goal.currentAmount || 0),
+    0
+  );
+
+  const completedCount = goals.filter(
+    (goal) => Number(goal.currentAmount) >= Number(goal.targetAmount)
+  ).length;
+
+  return { totalTarget, totalSaved, completedCount };
 }
