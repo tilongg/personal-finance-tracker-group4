@@ -55,13 +55,15 @@ export const sampleGoals = [
     id: 1,
     title: "Emergency Fund",
     targetAmount: 3000,
-    currentAmount: 1800
+    currentAmount: 1800,
+    deadline:"2026-12-22"
   },
   {
     id: 2,
     title: "New Laptop",
     targetAmount: 1200,
-    currentAmount: 850
+    currentAmount: 850,
+    deadline:"2026-12-22"
   }
 ];
 

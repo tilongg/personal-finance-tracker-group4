@@ -18,7 +18,7 @@ export default function SavingsGoals() {
   const [msg, setMsg] = useState("");
 
   // amount typed into each da goals like "Add money" input field
-  const [contributions, setContributions] = useState({});\
+  const [contributions, setContributions] = useState({});
 
   // math happens in finance.js so this is dum
   const { totalTarget, totalSaved, completedCount } =
@@ -290,7 +290,10 @@ export default function SavingsGoals() {
                   <div className="goal-meta">
                     <span>{progress}% saved</span>
                     <span>
-                      {isComplete
+                      {/* yay u reached ur goal, what a good job, now u can buy urself a new laptop or whatever it is u were saving for */}
+                      {saved > target
+                        ? `$${(saved - target).toLocaleString()} over target`
+                        : isComplete
                         ? "Fully funded"
                         : `$${remaining.toLocaleString()} to go`}
                     </span>
