@@ -195,3 +195,133 @@ table.simple-table tfoot td {
     padding: 20px;
   }
 }
+
+/* ===== Savings Goals ===== */
+.btn-danger {
+  color: var(--color-expense);
+  border-color: var(--color-expense);
+}
+
+.btn-danger:hover {
+  background: rgba(239, 83, 80, 0.15);
+}
+
+.goals-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.goal-form-card {
+  position: sticky;
+  top: 16px;
+}
+
+.goal-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.goal-form-actions .btn-primary {
+  flex: 1;
+}
+
+.goal-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.goal-list > .card:only-child {
+  grid-column: 1 / -1;
+}
+
+.goal-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.goal-card-header h2 {
+  overflow-wrap: anywhere;
+}
+
+.goal-badge {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  color: var(--color-on-primary);
+  background: var(--color-income);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.goal-amounts {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.goal-saved {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.progress-track {
+  height: 12px;
+  overflow: hidden;
+  background: var(--color-control);
+  border-radius: 999px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.complete {
+  background: var(--color-income);
+}
+
+.goal-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.card .goal-deadline {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.goal-contribute {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.goal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (max-width: 800px) {
+  .goals-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-form-card {
+    position: static;
+  }
+}
