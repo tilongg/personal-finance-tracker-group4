@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import TransactionTable from "../components/transactions/TransactionTable";
 import { useFinance } from "../contexts/FinanceContext";
+import { tags } from "../data/sampleData";
 
 export default function Transactions() {
   const {
@@ -9,6 +11,14 @@ export default function Transactions() {
     loadSampleTransactions,
     sampleTransactionsLoaded
   } = useFinance();
+
+  const [filters, setFilters] = useState({
+    type: "",
+    tag: "",
+    month: "",
+    sortBy: "date",
+    sortOrder: "descending"
+  });
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -25,6 +35,11 @@ export default function Transactions() {
     );
 
   const balance = totalIncome - totalExpense;
+
+  function handleFilterChange(event) {
+    const { name, value } = event.target;
+    setFilters((current) => ({ ...current, [name]: value }));
+  }
 
   function handleDelete(id) {
     if (window.confirm("Delete this transaction?")) {
@@ -76,6 +91,81 @@ export default function Transactions() {
           </div>
         </div>
       </div>
+
+      <section className="card transaction-filters" aria-label="Filter transactions">
+        <div className="filter-field">
+          <label htmlFor="filter-type">Type</label>
+          <select
+            id="filter-type"
+            name="type"
+            className="form-control"
+            value={filters.type}
+            onChange={handleFilterChange}
+          >
+            <option value="">All types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+
+        <div className="filter-field">
+          <label htmlFor="filter-tag">Category</label>
+          <select
+            id="filter-tag"
+            name="tag"
+            className="form-control"
+            value={filters.tag}
+            onChange={handleFilterChange}
+          >
+            <option value="">All categories</option>
+            {tags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-field">
+          <label htmlFor="filter-month">Month</label>
+          <input
+            id="filter-month"
+            name="month"
+            type="month"
+            className="form-control"
+            value={filters.month}
+            onChange={handleFilterChange}
+          />
+        </div>
+
+        <div className="filter-field">
+          <label htmlFor="sort-by">Sort by</label>
+          <select
+            id="sort-by"
+            name="sortBy"
+            className="form-control"
+            value={filters.sortBy}
+            onChange={handleFilterChange}
+          >
+            <option value="date">Date</option>
+            <option value="amount">Amount</option>
+          </select>
+        </div>
+
+        <div className="filter-field">
+          <label htmlFor="sort-order">Order</label>
+          <select
+            id="sort-order"
+            name="sortOrder"
+            className="form-control"
+            value={filters.sortOrder}
+            onChange={handleFilterChange}
+          >
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+          </select>
+        </div>
+      </section>
 
       <TransactionTable
         transactions={transactions}
