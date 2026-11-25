@@ -21,7 +21,7 @@ function TransactionRow({ transaction, index, onDelete }) {
       <td className="align-center">
         <button
           type="button"
-          className="btn-danger btn-sm"
+          className="btn-delete btn-sm"
           onClick={() => onDelete(transaction.id)}
         >
           Delete
