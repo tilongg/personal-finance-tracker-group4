@@ -12,7 +12,7 @@ function TransactionRow({ transaction, index, onDelete }) {
       </td>
       <td>
         <span className="tag">{transaction.tag}</span>
-      </td>
+        </td>
       <td>{transaction.note || "-"}</td>
       <td className={`align-right amount-cell ${transaction.type}`}>
         {isIncome ? "+" : "-"}$
@@ -31,7 +31,7 @@ function TransactionRow({ transaction, index, onDelete }) {
   );
 }
 
-export default function TransactionTable({ transactions, balance, onDelete }) {
+export default function TransactionTable({ transactions, filteredNet, onDelete }) {
   if (transactions.length === 0) {
     return (
       <section className="card table-card">
@@ -72,8 +72,8 @@ export default function TransactionTable({ transactions, balance, onDelete }) {
               <td colSpan={5} className="align-right">
                 Total balance
               </td>
-              <td className={`align-right ${balance >= 0 ? "text-income" : "text-expense"}`}>
-                ${balance.toLocaleString()}
+              <td className={`align-right ${filteredNet >= 0 ? "text-income" : "text-expense"}`}>
+                ${filteredNet.toLocaleString()}
               </td>
               <td />
             </tr>

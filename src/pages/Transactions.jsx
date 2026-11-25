@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import TransactionTable from "../components/transactions/TransactionTable";
 import { useFinance } from "../contexts/FinanceContext";
+import { calculateFilteredNet,filterAndSortTransactions } from "../components/lib/finance";
 import { tags } from "../data/sampleData";
 
 export default function Transactions() {
@@ -35,6 +36,8 @@ export default function Transactions() {
     );
 
   const balance = totalIncome - totalExpense;
+  const filteredTransactions = filterAndSortTransactions(transactions, filters);
+  const filteredNet = calculateFilteredNet(filteredTransactions);
 
   function handleFilterChange(event) {
     const { name, value } = event.target;
@@ -168,8 +171,8 @@ export default function Transactions() {
       </section>
 
       <TransactionTable
-        transactions={transactions}
-        balance={balance}
+        transactions={filteredTransactions} 
+        filteredNet={filteredNet}
         onDelete={handleDelete}
       />
     </>
