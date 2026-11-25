@@ -18,8 +18,9 @@ export default function SavingsGoals() {
   const [msg, setMsg] = useState("");
 
   // amount typed into each da goals like "Add money" input field
-  const [contributions, setContributions] = useState({});
+  const [contributions, setContributions] = useState({});\
 
+  // math happens in finance.js so this is dum
   const { totalTarget, totalSaved, completedCount } =
     calculateGoalTotals(goals);
 
@@ -30,12 +31,14 @@ export default function SavingsGoals() {
     setCurrentAmount("");
     setDeadline("");
   }
-
+  
+  // shows the success message, then it disappears after 3 seconds just like dad goin for da milk
   function showMessage(text) {
     setMsg(text);
     setTimeout(() => setMsg(""), 3000);
   }
 
+   // without this, the page refreshes and forgets everything soooooo is kinda important if u wanna rembr ur goals
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -48,7 +51,7 @@ export default function SavingsGoals() {
       alert("Target amount must be greater than 0");
       return;
     }
-
+    // you can't save negative money, thats called debt
     if (currentAmount && Number(currentAmount) < 0) {
       alert("Saved amount cannot be negative");
       return;
@@ -80,7 +83,7 @@ export default function SavingsGoals() {
     setDeadline(goal.deadline || "");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
+  // "are you sure?" because deleting a goal is basically giving up ;)
   function handleDelete(goal) {
     if (window.confirm(`Delete the goal "${goal.title}"?`)) {
       deleteGoal(goal.id);
