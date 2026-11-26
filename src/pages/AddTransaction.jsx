@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFinance } from "../contexts/FinanceContext";
-import { tags } from "../data/sampleData";
+import { incomeTags, tags } from "../data/sampleData";
 
 export default function AddTransaction() {
   const { addTransaction } = useFinance();
@@ -107,14 +107,14 @@ export default function AddTransaction() {
                 onChange={(event) => setTag(event.target.value)}
               >
                 {type === "income" ? (
-                  <>
-                    <option value="salary">Salary</option>
-                    <option value="interest">Interest</option>
-                    <option value="other income">Other Income</option>
-                  </>
+                  incomeTags.map((incomeTag) => (
+                    <option key={incomeTag} value={incomeTag}>
+                      {incomeTag}
+                    </option>
+                  ))
                 ) : (
                   tags
-                    .filter((t) => !["salary", "interest", "other income"].includes(t))
+                    .filter((t) => !incomeTags.includes(t))
                     .map((t) => (
                       <option key={t} value={t}>
                         {t}

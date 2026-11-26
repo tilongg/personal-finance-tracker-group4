@@ -1,6 +1,4 @@
-import { tags } from "../../data/sampleData";
-
-const incomeTags = ["salary", "interest", "other income"];
+import { incomeTags, tags } from "../../data/sampleData";
 
 export default function EditTransactionModal({ transaction, onChange, onClose, onSave }) {
   if (!transaction) return null;
