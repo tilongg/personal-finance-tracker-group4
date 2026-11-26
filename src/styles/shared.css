@@ -238,6 +238,44 @@ table.simple-table tfoot td {
   opacity: 0.9;
 }
 
+.simple-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.simple-modal {
+  width: min(100%, 540px);
+  max-height: min(90vh, 760px);
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+.simple-modal.card {
+  margin-bottom: 0;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.close-btn {
+  padding: 4px 8px;
+  color: var(--color-text);
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
 
 /* Detelte Button */
 .btn-danger {
