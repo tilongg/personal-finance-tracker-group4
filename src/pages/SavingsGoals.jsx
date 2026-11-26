@@ -337,7 +337,7 @@ export default function SavingsGoals() {
                     </button>
                     <button
                       type="button"
-                      className="btn-secondary btn-danger"
+                      className="btn-delete btn-sm"
                       onClick={() => handleDelete(goal)}
                     >
                       Delete
