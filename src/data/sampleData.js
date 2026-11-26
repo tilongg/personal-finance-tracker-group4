@@ -80,3 +80,5 @@ export const tags = [
   "bills",
   "others"
 ];
+
+export const incomeTags = ["salary", "interest", "other income"];
