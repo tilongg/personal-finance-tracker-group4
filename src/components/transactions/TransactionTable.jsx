@@ -1,4 +1,4 @@
-function TransactionRow({ transaction, index, onDelete }) {
+function TransactionRow({ transaction, index, onDelete, onEdit }) {
   const isIncome = transaction.type === "income";
 
   return (
@@ -21,6 +21,13 @@ function TransactionRow({ transaction, index, onDelete }) {
       <td className="align-center">
         <button
           type="button"
+          className="btn-secondary btn-sm"
+          onClick={() => onEdit(transaction)}
+        >
+          Edit
+        </button>{" "}
+        <button
+          type="button"
           className="btn-delete btn-sm"
           onClick={() => onDelete(transaction.id)}
         >
@@ -31,7 +38,7 @@ function TransactionRow({ transaction, index, onDelete }) {
   );
 }
 
-export default function TransactionTable({ transactions, filteredNet, onDelete }) {
+export default function TransactionTable({ transactions, filteredNet, onDelete, onEdit }) {
   if (transactions.length === 0) {
     return (
       <section className="card table-card">
@@ -63,6 +70,7 @@ export default function TransactionTable({ transactions, filteredNet, onDelete }
                 transaction={transaction}
                 index={index}
                 onDelete={onDelete}
+                onEdit={onEdit}
               />
             ))}
           </tbody>

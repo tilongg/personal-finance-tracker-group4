@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TransactionTable from "../components/transactions/TransactionTable";
+import EditTransactionModal from "../components/transactions/EditTransaction";
 import { useFinance } from "../contexts/FinanceContext";
 import { calculateFilteredNet,filterAndSortTransactions } from "../components/lib/finance";
 import { tags } from "../data/sampleData";
@@ -9,6 +10,7 @@ export default function Transactions() {
   const {
     transactions,
     deleteTransaction,
+    updateTransaction,
     loadSampleTransactions,
     sampleTransactionsLoaded
   } = useFinance();
@@ -20,6 +22,7 @@ export default function Transactions() {
     sortBy: "date",
     sortOrder: "descending"
   });
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -48,6 +51,11 @@ export default function Transactions() {
     if (window.confirm("Delete this transaction?")) {
       deleteTransaction(id);
     }
+  }
+
+  function handleSaveEdit() {
+    updateTransaction(editingTransaction.id, editingTransaction);
+    setEditingTransaction(null);
   }
 
   return (
@@ -174,6 +182,13 @@ export default function Transactions() {
         transactions={filteredTransactions} 
         filteredNet={filteredNet}
         onDelete={handleDelete}
+        onEdit={(transaction) => setEditingTransaction({ ...transaction })}
+      />
+      <EditTransactionModal
+        transaction={editingTransaction}
+        onChange={setEditingTransaction}
+        onClose={() => setEditingTransaction(null)}
+        onSave={handleSaveEdit}
       />
     </>
   );
