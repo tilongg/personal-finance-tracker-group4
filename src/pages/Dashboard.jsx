@@ -107,72 +107,74 @@ useEffect(() => {
         </div>
       </header>
 
-      <SummaryCards totals={totals} />
+            <SummaryCards totals={totals} />
 
-      <div className="dashboard-grid">
-        <IncomeExpenseChart
-          data={monthlyData}
-          selectedMonth={selectedMonth}
-        />
+      <div className="dashboard-columns">
+        <div className="dashboard-column dashboard-left">
+          <IncomeExpenseChart
+            data={monthlyData}
+            selectedMonth={selectedMonth}
+          />
 
-        <SpendingCategoryChart
-          data={categoryData}
-          totalExpense={totals.totalExpense}
-        />
-      </div>
-
-      <div className="dashboard-grid">
-        <section className="card dashboard-panel">
-          <div className="dashboard-section-header">
-            <h2>Recent Transactions</h2>
-            <Link to="/transactions">View All</Link>
-          </div>
-
-          {recentTransactions.length > 0 ? (
-            <ul className="dashboard-transaction-list">
-              {recentTransactions.map((transaction) => {
-                const isIncome = transaction.type === "income";
-
-                return (
-                  <li key={transaction.id}>
-                    <div className="dashboard-transaction-description">
-                      <strong>
-                        {transaction.note || transaction.tag}
-                      </strong>
-                      <span>{transaction.tag}</span>
-                    </div>
-
-                    <time dateTime={transaction.date}>
-                      {new Date(
-                        `${transaction.date}T00:00:00`
-                      ).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      })}
-                    </time>
-
-                    <strong
-                      className={
-                        isIncome ? "text-income" : "text-expense"
-                      }
-                    >
-                      {isIncome ? "+" : "−"}
-                      {formatCurrency(transaction.amount)}
-                    </strong>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <div className="dashboard-empty">
-              <p>No transactions for this period.</p>
-              <Link to="/transactions/new">Add a transaction</Link>
+          <section className="card dashboard-panel dashboard-recent">
+            <div className="dashboard-section-header">
+              <h2>Recent Transactions</h2>
+              <Link to="/transactions">View All</Link>
             </div>
-          )}
-        </section>
 
-        <SavingsOverview goals={goals} />
+            {recentTransactions.length > 0 ? (
+              <ul className="dashboard-transaction-list">
+                {recentTransactions.map((transaction) => {
+                  const isIncome = transaction.type === "income";
+
+                  return (
+                    <li key={transaction.id}>
+                      <div className="dashboard-transaction-description">
+                        <strong>
+                          {transaction.note || transaction.tag}
+                        </strong>
+                        <span>{transaction.tag}</span>
+                      </div>
+
+                      <time dateTime={transaction.date}>
+                        {new Date(
+                          `${transaction.date}T00:00:00`
+                        ).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric"
+                        })}
+                      </time>
+
+                      <strong
+                        className={
+                          isIncome ? "text-income" : "text-expense"
+                        }
+                      >
+                        {isIncome ? "+" : "−"}
+                        {formatCurrency(transaction.amount)}
+                      </strong>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <div className="dashboard-empty">
+                <p>No transactions for this period.</p>
+                <Link to="/transactions/new">Add a transaction</Link>
+              </div>
+            )}
+          </section>
+        </div>
+
+        <div className="dashboard-column dashboard-right">
+          <SpendingCategoryChart
+            data={categoryData}
+            totalExpense={totals.totalExpense}
+          />
+
+          <SavingsOverview goals={goals} />
+        </div>
       </div>
     </div>
   );
