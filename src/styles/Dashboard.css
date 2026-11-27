@@ -304,4 +304,13 @@
     grid-row: 1 / 3;
     overflow-wrap: anywhere;
   }
+
+  .dashboard-donut > .recharts-responsive-container {
+    position: relative;
+     z-index: 2;
+  }
+
+  .dashboard-donut-center {
+  z-index: 1;
+  }
 }

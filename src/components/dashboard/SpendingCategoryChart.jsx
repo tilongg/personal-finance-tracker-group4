@@ -46,6 +46,7 @@ export default function SpendingCategoryChart({ data, totalExpense }) {
                 />
 
                 <Tooltip
+                  wrapperStyle={{ zIndex: 10 }}
                   formatter={(value) => formatCurrency(value)}
                   contentStyle={{
                     background: "var(--color-surface)",
