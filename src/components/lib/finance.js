@@ -69,3 +69,10 @@ export function calculateGoalTotals(goals) {
 
   return { totalTarget, totalSaved, completedCount };
 }
+
+export function formatCurrency(amount) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  }).format(Number(amount));
+}
