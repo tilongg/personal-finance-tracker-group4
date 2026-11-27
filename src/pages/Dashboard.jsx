@@ -13,18 +13,30 @@ import IncomeExpenseChart from "../components/dashboard/IncomeExpenseChart";
 import SpendingCategoryChart from "../components/dashboard/SpendingCategoryChart";
 import SavingsOverview from "../components/dashboard/SavingsOverview";
 import "../styles/Dashboard.css";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const { transactions, goals } = useFinance();
 
-  const [selectedMonth, setSelectedMonth] = useState(() => {
-    const today = new Date();
+const [selectedMonth, setSelectedMonth] = useState(() => {
+  const savedPeriod = sessionStorage.getItem("dashboardPeriod");
 
-    return (
-      `${today.getFullYear()}-` +
-      String(today.getMonth() + 1).padStart(2, "0")
-    );
-  });
+  // An empty string is the saved "All time" option.
+  if (savedPeriod !== null) {
+    return savedPeriod;
+  }
+
+  const today = new Date();
+
+  return (
+    `${today.getFullYear()}-` +
+    String(today.getMonth() + 1).padStart(2, "0")
+  );
+});
+
+useEffect(() => {
+  sessionStorage.setItem("dashboardPeriod", selectedMonth);
+}, [selectedMonth]);
 
   const today = new Date();
   const currentMonth =
