@@ -20,6 +20,7 @@ export default function AuthProvider({ children }) {
       password === "demo123";
 
     if (valid) {
+      sessionStorage.removeItem("dashboardPeriod");
       setIsLoggedIn(true);
     }
 
@@ -27,6 +28,7 @@ export default function AuthProvider({ children }) {
   }
 
   function logout() {
+      sessionStorage.removeItem("dashboardPeriod");
     setIsLoggedIn(false);
   }
 
