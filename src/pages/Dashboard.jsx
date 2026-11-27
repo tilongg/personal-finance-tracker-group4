@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFinance } from "../contexts/FinanceContext";
 import {
@@ -13,7 +13,6 @@ import IncomeExpenseChart from "../components/dashboard/IncomeExpenseChart";
 import SpendingCategoryChart from "../components/dashboard/SpendingCategoryChart";
 import SavingsOverview from "../components/dashboard/SavingsOverview";
 import "../styles/Dashboard.css";
-import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const { transactions, goals } = useFinance();
